@@ -32,40 +32,43 @@
 <body>
     <div class="container">
         <h2>Pretax Calculator</h2>
-        <label for="totalAmount">Enter Total Amount ($):</label>
-        <input type="number" id="totalAmount" placeholder="Enter total amount">
+        <label for="totalAmount">Enter Merchandise Amount ($):</label>
+        <input type="number" id="totalAmount" placeholder="Enter merchandise amount">
         <button onclick="calculateAmounts()">Calculate</button>
         <div class="result" id="finalAmount"></div>
         <div class="result" id="cardReaderAmount"></div>
+        <div class="result" id="creditCardSurcharge"></div>
     </div>
 
     <script>
         function calculateAmounts() {
-            let totalAmount = parseFloat(document.getElementById("totalAmount").value);
-            if (isNaN(totalAmount) || totalAmount <= 0) {
-                alert("Please enter a valid total amount.");
+            let merchandiseAmount = parseFloat(document.getElementById("totalAmount").value);
+            if (isNaN(merchandiseAmount) || merchandiseAmount <= 0) {
+                alert("Please enter a valid merchandise amount.");
                 return;
             }
 
-            // Step 1: Calculate tax
-            let tax = totalAmount * 0.06;
+            // Step 1: Calculate tax on merchandise
+            let tax = merchandiseAmount * 0.06;
 
-            // Step 2: Calculate surcharge (based on merchandise + tax)
-            let surcharge = (totalAmount + tax) * 0.03;
+            // Step 2: Calculate credit card surcharge based on merchandise + tax
+            let creditCardSurcharge = (merchandiseAmount + tax) * 0.03;
 
-            // Step 3: Add surcharge to merchandise to get taxable amount
-            let taxableAmount = totalAmount + surcharge;
+            // Step 3: Calculate total taxable amount (merchandise + surcharge)
+            let taxableAmount = merchandiseAmount + creditCardSurcharge;
 
-            // Step 4: Add tax to the taxable amount to find the final total amount due
+            // Step 4: Calculate final total amount including tax
             let finalAmount = taxableAmount * 1.06;
 
-            // Step 5: Calculate pre-surcharge input for the card machine
+            // Step 5: Calculate the pre-surcharge amount for the card reader
             let preSurchargeAmount = finalAmount / 1.03;
 
             // Display results
-            document.getElementById("finalAmount").innerHTML = `<strong>Final Amount (The One That Matches 😊):</strong> $${finalAmount.toFixed(2)}`;
-            document.getElementById("cardReaderAmount").innerHTML = `<strong>Card Reader Amount:</strong> $${preSurchargeAmount.toFixed(2)}`;
+            document.getElementById("finalAmount").innerHTML = `<strong>Amount with Charge and Tax:</strong> $${finalAmount.toFixed(2)}`;
+            document.getElementById("cardReaderAmount").innerHTML = `<strong>Put this Number in the CC Reader:</strong> $${preSurchargeAmount.toFixed(2)}`;
+            document.getElementById("creditCardSurcharge").innerHTML = `<strong>Credit Card Surcharge:</strong> $${creditCardSurcharge.toFixed(2)}`;
         }
     </script>
 </body>
 </html>
+
