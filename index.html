@@ -47,17 +47,23 @@
                 return;
             }
 
-            // Step 1: Calculate surcharge
-            let surcharge = totalAmount * 0.03;
+            // Step 1: Calculate tax
+            let tax = totalAmount * 0.06;
 
-            // Step 2: Calculate total taxable amount
-            let taxableAmount = (totalAmount + surcharge) * 1.06;
+            // Step 2: Calculate surcharge (based on merchandise + tax)
+            let surcharge = (totalAmount + tax) * 0.03;
 
-            // Step 3: Calculate pre-surcharge input for the card machine
-            let preSurchargeAmount = taxableAmount / 1.03;
+            // Step 3: Add surcharge to merchandise to get taxable amount
+            let taxableAmount = totalAmount + surcharge;
+
+            // Step 4: Add tax to the taxable amount to find the final total amount due
+            let finalAmount = taxableAmount * 1.06;
+
+            // Step 5: Calculate pre-surcharge input for the card machine
+            let preSurchargeAmount = finalAmount / 1.03;
 
             // Display results
-            document.getElementById("finalAmount").innerHTML = `<strong>Final Amount (The One That Matches 😊):</strong> $${taxableAmount.toFixed(2)}`;
+            document.getElementById("finalAmount").innerHTML = `<strong>Final Amount (The One That Matches 😊):</strong> $${finalAmount.toFixed(2)}`;
             document.getElementById("cardReaderAmount").innerHTML = `<strong>Card Reader Amount:</strong> $${preSurchargeAmount.toFixed(2)}`;
         }
     </script>
