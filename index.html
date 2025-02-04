@@ -41,6 +41,10 @@
     </div>
 
     <script>
+        function roundUpToCents(value) {
+            return Math.ceil(value * 100) / 100;
+        }
+
         function calculateAmounts() {
             let merchandiseAmount = parseFloat(document.getElementById("totalAmount").value);
             if (isNaN(merchandiseAmount) || merchandiseAmount <= 0) {
@@ -49,19 +53,19 @@
             }
 
             // Step 1: Calculate tax on merchandise
-            let tax = merchandiseAmount * 0.06;
+            let tax = roundUpToCents(merchandiseAmount * 0.06);
 
             // Step 2: Calculate credit card surcharge based on merchandise + tax
-            let creditCardSurcharge = (merchandiseAmount + tax) * 0.03;
+            let creditCardSurcharge = roundUpToCents((merchandiseAmount + tax) * 0.03);
 
             // Step 3: Calculate total taxable amount (merchandise + surcharge)
-            let taxableAmount = merchandiseAmount + creditCardSurcharge;
+            let taxableAmount = roundUpToCents(merchandiseAmount + creditCardSurcharge);
 
             // Step 4: Calculate final total amount including tax
-            let finalAmount = taxableAmount * 1.06;
+            let finalAmount = roundUpToCents(taxableAmount * 1.06);
 
             // Step 5: Calculate the pre-surcharge amount for the card reader
-            let preSurchargeAmount = finalAmount / 1.03;
+            let preSurchargeAmount = roundUpToCents(finalAmount / 1.03);
 
             // Display results
             document.getElementById("finalAmount").innerHTML = `<strong>Amount with Charge and Tax:</strong> $${finalAmount.toFixed(2)}`;
@@ -71,4 +75,3 @@
     </script>
 </body>
 </html>
-
